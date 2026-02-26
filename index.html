@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简单计算器</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="calculator" aria-label="计算器">
+      <h1>简单计算器</h1>
+      <form id="calculator-form" class="calculator-form">
+        <label>
+          第一个数字
+          <input type="number" id="first-number" step="any" required />
+        </label>
+
+        <label>
+          第二个数字
+          <input type="number" id="second-number" step="any" required />
+        </label>
+
+        <label>
+          运算符
+          <select id="operator" required>
+            <option value="add">加法 (+)</option>
+            <option value="subtract">减法 (-)</option>
+            <option value="multiply">乘法 (×)</option>
+            <option value="divide">除法 (÷)</option>
+          </select>
+        </label>
+
+        <button type="submit">计算</button>
+      </form>
+
+      <p id="result" class="result" aria-live="polite">请输入数值并点击“计算”。</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
