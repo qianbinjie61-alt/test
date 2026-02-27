@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    container_name: memo-finance-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      MYSQL_URL: jdbc:mysql://mysql:3306/memo_finance?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      MYSQL_USERNAME: app
+      MYSQL_PASSWORD: app123456
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    container_name: memo-finance-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: memo_finance
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
