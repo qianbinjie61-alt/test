@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS memos (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS finance_records (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  month CHAR(7) NOT NULL,
+  type ENUM('income', 'expense') NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  note VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_finance_month_created_at (month, created_at)
+);
