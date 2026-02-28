@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自用备忘录与记账</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>我的备忘录与记账本</h1>
+        <p>已切换为服务器持久化存储，可部署后多人共享使用。</p>
+      </header>
+
+      <section class="card" aria-labelledby="memo-title">
+        <div class="card-title-row">
+          <h2 id="memo-title">备忘录</h2>
+        </div>
+        <form id="memo-form" class="form-grid">
+          <label>
+            内容
+            <textarea id="memo-content" rows="3" placeholder="例如：周五提交报表" required></textarea>
+          </label>
+          <button type="submit">添加备忘</button>
+        </form>
+        <ul id="memo-list" class="list"></ul>
+      </section>
+
+      <section class="card" aria-labelledby="finance-title">
+        <div class="card-title-row">
+          <h2 id="finance-title">月度记账</h2>
+        </div>
+
+        <form id="finance-form" class="form-grid form-2cols">
+          <label>
+            月份
+            <input type="month" id="finance-month" required />
+          </label>
+
+          <label>
+            类型
+            <select id="finance-type" required>
+              <option value="income">收入</option>
+              <option value="expense">支出</option>
+            </select>
+          </label>
+
+          <label>
+            金额
+            <input type="number" id="finance-amount" step="0.01" min="0" placeholder="0.00" required />
+          </label>
+
+          <label>
+            说明
+            <input type="text" id="finance-note" placeholder="例如：工资 / 餐饮" required />
+          </label>
+
+          <button type="submit">添加记录</button>
+        </form>
+
+        <div id="monthly-summary" class="summary" aria-live="polite"></div>
+        <ul id="finance-list" class="list"></ul>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
