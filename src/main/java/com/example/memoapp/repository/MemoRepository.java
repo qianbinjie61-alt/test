@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class MemoRepository {
@@ -30,15 +29,6 @@ public class MemoRepository {
         return jdbcTemplate.query("SELECT id, content, created_at FROM memos ORDER BY created_at DESC", memoRowMapper);
     }
 
-    public Optional<Memo> findById(Long id) {
-        List<Memo> rows = jdbcTemplate.query(
-                "SELECT id, content, created_at FROM memos WHERE id = ?",
-                memoRowMapper,
-                id
-        );
-        return rows.stream().findFirst();
-    }
-
     public Memo create(String content) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -52,7 +42,11 @@ public class MemoRepository {
 
         Number key = keyHolder.getKey();
         Long id = key == null ? null : key.longValue();
-        return findById(id).orElseThrow();
+        return jdbcTemplate.queryForObject(
+                "SELECT id, content, created_at FROM memos WHERE id = ?",
+                memoRowMapper,
+                id
+        );
     }
 
     public boolean deleteById(Long id) {
