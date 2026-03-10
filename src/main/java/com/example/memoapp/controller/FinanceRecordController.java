@@ -24,6 +24,12 @@ public class FinanceRecordController {
         return recordRepository.findByMonth(month);
     }
 
+    @GetMapping("/{id}")
+    public FinanceRecord getRecord(@PathVariable Long id) {
+        return recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("记录不存在"));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FinanceRecord createRecord(@Valid @RequestBody CreateRecordRequest request) {

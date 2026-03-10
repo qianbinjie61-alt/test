@@ -24,6 +24,12 @@ public class MemoController {
         return memoRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public Memo getMemo(@PathVariable Long id) {
+        return memoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("备忘不存在"));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Memo createMemo(@Valid @RequestBody CreateMemoRequest request) {

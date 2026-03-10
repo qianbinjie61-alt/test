@@ -41,6 +41,13 @@ mvn spring-boot:run
 
 打开：`http://127.0.0.1:3000`
 
+
+## 页面结构
+- `/memos.html`：备忘录清单页（新增/删除/进入详情）
+- `/memo.html?id=<id>`：备忘录详情页
+- `/records.html`：月度记账清单页（新增/删除/进入详情）
+- `/record.html?id=<id>`：月度记账详情页
+
 ## Docker 打包与运行
 
 ### 方式 A：只打应用镜像

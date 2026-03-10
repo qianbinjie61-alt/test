@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class FinanceRecordRepository {
@@ -37,6 +38,15 @@ public class FinanceRecordRepository {
         );
     }
 
+    public Optional<FinanceRecord> findById(Long id) {
+        List<FinanceRecord> rows = jdbcTemplate.query(
+                "SELECT id, month, type, amount, note, created_at FROM finance_records WHERE id = ?",
+                recordRowMapper,
+                id
+        );
+        return rows.stream().findFirst();
+    }
+
     public FinanceRecord create(String month, String type, BigDecimal amount, String note) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -53,6 +63,7 @@ public class FinanceRecordRepository {
 
         Number key = keyHolder.getKey();
         Long id = key == null ? null : key.longValue();
+        return findById(id).orElseThrow();
         return jdbcTemplate.queryForObject(
                 "SELECT id, month, type, amount, note, created_at FROM finance_records WHERE id = ?",
                 recordRowMapper,

@@ -21,3 +21,10 @@ function getIdFromQuery() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
 }
+
+function createTextElement(tag, text, className) {
+  const el = document.createElement(tag);
+  el.textContent = text;
+  if (className) el.className = className;
+  return el;
+}
