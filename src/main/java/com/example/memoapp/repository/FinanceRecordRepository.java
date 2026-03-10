@@ -64,6 +64,11 @@ public class FinanceRecordRepository {
         Number key = keyHolder.getKey();
         Long id = key == null ? null : key.longValue();
         return findById(id).orElseThrow();
+        return jdbcTemplate.queryForObject(
+                "SELECT id, month, type, amount, note, created_at FROM finance_records WHERE id = ?",
+                recordRowMapper,
+                id
+        );
     }
 
     public boolean deleteById(Long id) {

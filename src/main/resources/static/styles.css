@@ -72,6 +72,16 @@ body {
   color: #4b5563;
   margin-top: 0.25rem;
   font-weight: 400;
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .form-grid {

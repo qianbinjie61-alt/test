@@ -53,6 +53,11 @@ public class MemoRepository {
         Number key = keyHolder.getKey();
         Long id = key == null ? null : key.longValue();
         return findById(id).orElseThrow();
+        return jdbcTemplate.queryForObject(
+                "SELECT id, content, created_at FROM memos WHERE id = ?",
+                memoRowMapper,
+                id
+        );
     }
 
     public boolean deleteById(Long id) {
