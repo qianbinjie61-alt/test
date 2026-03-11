@@ -42,7 +42,7 @@ form.addEventListener('submit', async (event) => {
   const username = usernameEl.value.trim();
   const password = passwordEl.value;
   if (!username || !password) {
-    errorEl.textContent = 'Username and password required.';
+    errorEl.textContent = i18n.t('login_error_required');
     return;
   }
 
@@ -54,6 +54,6 @@ form.addEventListener('submit', async (event) => {
     setAuthToken(data.token);
     window.location.href = '/';
   } catch (error) {
-    errorEl.textContent = error.message || 'Login failed.';
+    errorEl.textContent = error.message || i18n.t('login_failed');
   }
 });

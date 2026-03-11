@@ -1,33 +1,37 @@
-<!doctype html>
-<html lang="zh-CN">
+﻿<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>备忘录清单（兼容版）</title>
+    <title>Memos</title>
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
     <main class="app">
       <header class="app-header row">
-        <h1>备忘录清单页</h1>
+        <h1 data-i18n="memos_title">Memos</h1>
         <div class="nav-right">
-          <a href="./index.html">Home</a>
+          <a href="./index.html" data-i18n="nav_home">Home</a>
           <div id="nav-bar" class="nav-bar"></div>
         </div>
       </header>
       <section class="card">
         <form id="memo-form" class="form-grid">
-          <label>新备忘<textarea id="memo-content" rows="3" required></textarea></label>
-          <button type="submit">添加备忘</button>
+          <label>
+            <span data-i18n="memos_new">New memo</span>
+            <textarea id="memo-content" rows="3" data-i18n-placeholder="memos_new" required></textarea>
+          </label>
+          <button type="submit" data-i18n="memos_add">Add memo</button>
         </form>
         <ul id="memo-list" class="list"></ul>
         <div class="pager row" id="memo-pager">
-          <button type="button" id="memo-prev">上一页</button>
+          <button type="button" id="memo-prev" data-i18n="nav_prev">Prev</button>
           <div id="memo-page-info" class="pager-info" aria-live="polite"></div>
-          <button type="button" id="memo-next">下一页</button>
+          <button type="button" id="memo-next" data-i18n="nav_next">Next</button>
         </div>
       </section>
     </main>
+    <script src="../i18n.js"></script>
     <script src="../api.js"></script>
     <script src="../auth.js"></script>
     <script src="../nav.js"></script>

@@ -10,7 +10,7 @@ registerForm.addEventListener('submit', async (event) => {
   const username = registerUsername.value.trim();
   const password = registerPassword.value;
   if (!username || !password) {
-    registerMessage.textContent = 'Username and password required.';
+    registerMessage.textContent = i18n.t('login_error_required');
     return;
   }
 
@@ -20,13 +20,12 @@ registerForm.addEventListener('submit', async (event) => {
       body: JSON.stringify({ username, password })
     });
     if (user.status === 'ACTIVE') {
-      registerMessage.textContent = 'Registration successful. You can login now.';
+      registerMessage.textContent = i18n.t('register_success');
     } else {
-      registerMessage.textContent = 'Registration submitted. Please wait for admin approval.';
+      registerMessage.textContent = i18n.t('register_pending');
     }
     registerForm.reset();
   } catch (error) {
-    registerMessage.textContent = error.message || 'Registration failed.';
+    registerMessage.textContent = error.message || i18n.t('register_failed');
   }
 });
-

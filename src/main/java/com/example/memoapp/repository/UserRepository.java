@@ -87,4 +87,19 @@ public class UserRepository {
     public boolean updateStatus(Long id, String status) {
         return jdbcTemplate.update("UPDATE users SET status = ? WHERE id = ?", status, id) > 0;
     }
+
+    public List<User> findAll() {
+        return jdbcTemplate.query(
+                "SELECT id, username, password_hash, role, status, created_at FROM users ORDER BY created_at DESC",
+                userRowMapper
+        );
+    }
+
+    public boolean updateRole(Long id, String role) {
+        return jdbcTemplate.update("UPDATE users SET role = ? WHERE id = ?", role, id) > 0;
+    }
+
+    public boolean deleteById(Long id) {
+        return jdbcTemplate.update("DELETE FROM users WHERE id = ?", id) > 0;
+    }
 }

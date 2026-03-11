@@ -9,29 +9,37 @@
   <body>
     <main class="app home">
       <header class="app-header">
-        <h1>Create account</h1>
-        <p>Registration requires admin approval.</p>
+        <h1 data-i18n="register_title">Create account</h1>
+        <p data-i18n="register_subtitle">Registration requires admin approval.</p>
+        <button type="button" class="nav-bar" data-lang-toggle></button>
       </header>
 
       <section class="card">
         <form id="register-form" class="form-grid">
           <label>
-            Username
+            <span data-i18n="login_username">Username</span>
             <input type="text" id="register-username" required />
           </label>
           <label>
-            Password
+            <span data-i18n="login_password">Password</span>
             <input type="password" id="register-password" required />
           </label>
-          <button type="submit">Register</button>
+          <button type="submit" data-i18n="register_submit">Register</button>
         </form>
         <p id="register-message" class="item-meta" aria-live="polite"></p>
-        <a class="item-link" href="/login.html">Back to login</a>
+        <a class="item-link" href="/login.html" data-i18n="register_back">Back to login</a>
       </section>
     </main>
 
+    <script src="/i18n.js"></script>
     <script src="/api.js"></script>
     <script src="/register.js"></script>
+    <script>
+      document.querySelector('[data-lang-toggle]').addEventListener('click', () => {
+        const next = i18n.getLanguage() === 'zh' ? 'en' : 'zh';
+        i18n.setLanguage(next);
+        window.location.reload();
+      });
+    </script>
   </body>
 </html>
-

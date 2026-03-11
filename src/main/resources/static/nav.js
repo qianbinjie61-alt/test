@@ -17,13 +17,23 @@ async function loadNav() {
     if (isAdmin) {
       const adminLink = document.createElement('a');
       adminLink.href = '/admin.html';
-      adminLink.textContent = 'Admin';
+      adminLink.textContent = i18n.t('nav_admin');
       actions.appendChild(adminLink);
     }
 
+    const langBtn = document.createElement('button');
+    langBtn.type = 'button';
+    langBtn.textContent = i18n.t('nav_lang');
+    langBtn.addEventListener('click', () => {
+      const next = i18n.getLanguage() === 'zh' ? 'en' : 'zh';
+      i18n.setLanguage(next);
+      window.location.reload();
+    });
+    actions.appendChild(langBtn);
+
     const logoutBtn = document.createElement('button');
     logoutBtn.type = 'button';
-    logoutBtn.textContent = 'Logout';
+    logoutBtn.textContent = i18n.t('nav_logout');
     logoutBtn.addEventListener('click', async () => {
       try {
         await requestJson('/api/auth/logout', { method: 'POST' });
@@ -44,4 +54,3 @@ async function loadNav() {
 }
 
 loadNav();
-

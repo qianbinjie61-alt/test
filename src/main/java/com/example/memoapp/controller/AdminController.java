@@ -29,6 +29,45 @@ public class AdminController {
                 .toList();
     }
 
+    @GetMapping("/users")
+    public List<UserResponse> allUsers(@RequestAttribute("authUser") User user) {
+        requireAdmin(user);
+        return userRepository.findAll().stream()
+                .map(u -> new UserResponse(u.id(), u.username(), u.role(), u.status()))
+                .toList();
+    }
+
+    @PostMapping("/users/{id}/role")
+    public UserResponse updateRole(
+            @RequestAttribute("authUser") User user,
+            @PathVariable Long id,
+            @RequestParam String role
+    ) {
+        requireAdmin(user);
+        String normalized = role == null ? "" : role.trim().toUpperCase();
+        if (!AuthService.ROLE_ADMIN.equals(normalized) && !AuthService.ROLE_USER.equals(normalized)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid role");
+        }
+        if (!userRepository.updateRole(id, normalized)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+        }
+        User updated = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
+        return new UserResponse(updated.id(), updated.username(), updated.role(), updated.status());
+    }
+
+    @DeleteMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@RequestAttribute("authUser") User user, @PathVariable Long id) {
+        requireAdmin(user);
+        if (user.id().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot delete self");
+        }
+        if (!userRepository.deleteById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+        }
+    }
+
     @PostMapping("/users/{id}/approve")
     public UserResponse approve(@RequestAttribute("authUser") User user, @PathVariable Long id) {
         requireAdmin(user);
@@ -57,4 +96,3 @@ public class AdminController {
         }
     }
 }
-

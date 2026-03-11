@@ -20,14 +20,16 @@ function renderRecords(records, month, income, expense) {
   financeList.innerHTML = '';
 
   monthlySummary.innerHTML = '';
-  monthlySummary.append(createTextElement('strong', `${month} Summary:`));
-  monthlySummary.insertAdjacentHTML(
-    'beforeend',
-    ` Income <span class="income">${income.toFixed(2)}</span>, Expense <span class="expense">${expense.toFixed(2)}</span>, Balance <strong>${(income - expense).toFixed(2)}</strong>`
-  );
+  const summaryText = i18n.t('records_summary', {
+    month,
+    income: income.toFixed(2),
+    expense: expense.toFixed(2),
+    balance: (income - expense).toFixed(2)
+  });
+  monthlySummary.textContent = summaryText;
 
   if (records.length === 0) {
-    financeList.append(createTextElement('li', 'No records'));
+    financeList.append(createTextElement('li', i18n.t('records_empty')));
     return;
   }
 
@@ -40,10 +42,10 @@ function renderRecords(records, month, income, expense) {
     const meta = createTextElement('div', `${record.month} · ${toLocalTime(record.createdAt)}`, 'item-meta');
     main.append(link, meta);
 
-    const typeText = record.type === 'income' ? 'Income' : 'Expense';
+    const typeText = record.type === 'income' ? i18n.t('records_income') : i18n.t('records_expense');
     const amount = createTextElement('div', `${typeText} ${Number(record.amount).toFixed(2)}`, record.type === 'income' ? 'income' : 'expense');
 
-    const del = createTextElement('button', 'Delete', 'delete-btn');
+    const del = createTextElement('button', i18n.t('memos_delete'), 'delete-btn');
     del.type = 'button';
     del.dataset.id = record.id;
 
@@ -54,7 +56,10 @@ function renderRecords(records, month, income, expense) {
 
 function updatePager() {
   const totalPages = total === 0 ? 0 : Math.ceil(total / size);
-  pageInfo.textContent = total === 0 ? 'No data' : `Page ${page + 1} / ${totalPages}, total ${total}`;
+  pageInfo.textContent =
+    total === 0
+      ? i18n.t('common_no_data')
+      : i18n.t('common_page', { page: page + 1, total: totalPages, count: total });
 
   pagerPrev.disabled = page <= 0;
   pagerNext.disabled = total === 0 || (page + 1) * size >= total;
@@ -87,7 +92,7 @@ financeForm.addEventListener('submit', async (event) => {
   };
 
   if (!payload.month || !payload.type || !payload.note || Number.isNaN(payload.amount) || payload.amount < 0) {
-    alert('Invalid input');
+    alert(i18n.t('common_invalid_input'));
     return;
   }
 

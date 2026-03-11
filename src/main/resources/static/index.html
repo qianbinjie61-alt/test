@@ -9,23 +9,24 @@
   <body>
     <main class="app home">
       <header class="app-header">
-        <h1>备忘录与月度记账系统</h1>
-        <p>按模块查看清单，并可进入详情页查看单条记录。</p>
+        <h1 data-i18n="app_title">备忘录与月度记账系统</h1>
+        <p data-i18n="app_subtitle">按模块查看清单，并可进入详情页查看单条记录。</p>
         <div id="nav-bar" class="nav-bar"></div>
       </header>
 
       <section class="card home-links">
         <a class="nav-card" href="/memos.html">
-          <strong>备忘录</strong>
-          <span>进入备忘录清单页</span>
+          <strong data-i18n="list_detail_memos">备忘录</strong>
+          <span data-i18n="memos_title">备忘录清单页</span>
         </a>
         <a class="nav-card" href="/records.html">
-          <strong>月度记账</strong>
-          <span>进入月度记账清单页</span>
+          <strong data-i18n="list_detail_records">月度记账</strong>
+          <span data-i18n="records_title">月度记账清单页</span>
         </a>
       </section>
     </main>
 
+    <script src="i18n.js"></script>
     <script src="api.js"></script>
     <script src="auth.js"></script>
     <script src="nav.js"></script>

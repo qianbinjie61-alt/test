@@ -1,10 +1,10 @@
-const card = document.querySelector('#memo-detail-card');
+﻿const card = document.querySelector('#memo-detail-card');
 
 async function loadMemo() {
   const id = getIdFromQuery();
   if (!id) {
     card.innerHTML = '';
-    card.append(createTextElement('p', '缺少备忘录 ID。'));
+    card.append(createTextElement('p', i18n.t('memo_missing_id')));
     return;
   }
 
@@ -12,11 +12,11 @@ async function loadMemo() {
     const memo = await requestJson(`/api/memos/${id}`);
     card.innerHTML = '';
 
-    card.append(createTextElement('h2', `备忘录 #${memo.id}`));
+    card.append(createTextElement('h2', i18n.t('memo_detail_id', { id: memo.id })));
     card.append(createTextElement('p', memo.content, 'detail-content'));
-    card.append(createTextElement('p', `创建时间：${toLocalTime(memo.createdAt)}`, 'item-meta'));
+    card.append(createTextElement('p', i18n.t('memos_created', { time: toLocalTime(memo.createdAt) }), 'item-meta'));
 
-    const deleteBtn = createTextElement('button', '删除这条备忘', 'delete-btn');
+    const deleteBtn = createTextElement('button', i18n.t('memo_delete_one'), 'delete-btn');
     deleteBtn.type = 'button';
     deleteBtn.addEventListener('click', async () => {
       await requestJson(`/api/memos/${memo.id}`, { method: 'DELETE' });

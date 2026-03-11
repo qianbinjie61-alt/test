@@ -28,7 +28,8 @@ async function requestJson(url, options = {}) {
     throw err;
   }
   if (!response.ok) {
-    throw new Error(data.message || 'request failed');
+    const fallback = typeof i18n !== 'undefined' ? i18n.t('common_request_failed') : 'request failed';
+    throw new Error(data.message || fallback);
   }
   return data;
 }
