@@ -58,6 +58,21 @@ public class FinanceRecordController {
         );
     }
 
+    @PutMapping("/{id}")
+    public FinanceRecord updateRecord(@PathVariable Long id, @Valid @RequestBody CreateRecordRequest request) {
+        boolean updated = recordRepository.updateRecord(
+                id,
+                request.month(),
+                request.type(),
+                request.amount(),
+                request.note().trim()
+        );
+        if (!updated) {
+            throw new ResourceNotFoundException("璁板綍涓嶅瓨鍦?");
+        }
+        return recordRepository.findById(id).orElseThrow();
+    }
+
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteRecord(@PathVariable Long id) {
         boolean deleted = recordRepository.deleteById(id);

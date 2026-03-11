@@ -69,6 +69,10 @@ public class MemoRepository {
         return findById(id).orElseThrow();
     }
 
+    public boolean updateContent(Long id, String content) {
+        return jdbcTemplate.update("UPDATE memos SET content = ? WHERE id = ?", content, id) > 0;
+    }
+
     public boolean deleteById(Long id) {
         return jdbcTemplate.update("DELETE FROM memos WHERE id = ?", id) > 0;
     }

@@ -1,44 +1,16 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memos</title>
-    <link rel="stylesheet" href="styles.css" />
+    <script type="module" crossorigin src="/assets/memos-DYH_Ktfj.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/i18n-C31FbUOM.js">
+    <link rel="modulepreload" crossorigin href="/assets/AppShell-wt0Yqxbx.js">
+    <link rel="modulepreload" crossorigin href="/assets/format-piTnjCuJ.js">
+    <link rel="stylesheet" crossorigin href="/assets/i18n-DXnnt3FZ.css">
   </head>
   <body>
-    <main class="app">
-      <header class="app-header row">
-        <h1 data-i18n="memos_title">Memos</h1>
-        <div class="nav-right">
-          <a href="/" data-i18n="nav_home">Home</a>
-          <div id="nav-bar" class="nav-bar"></div>
-        </div>
-      </header>
-
-      <section class="card">
-        <form id="memo-form" class="form-grid">
-          <label>
-            <span data-i18n="memos_new">New memo</span>
-            <textarea id="memo-content" rows="3" data-i18n-placeholder="memos_new" required></textarea>
-          </label>
-          <button type="submit" data-i18n="memos_add">Add memo</button>
-        </form>
-
-        <ul id="memo-list" class="list"></ul>
-
-        <div class="pager row" id="memo-pager">
-          <button type="button" id="memo-prev" data-i18n="nav_prev">Prev</button>
-          <div id="memo-page-info" class="pager-info" aria-live="polite"></div>
-          <button type="button" id="memo-next" data-i18n="nav_next">Next</button>
-        </div>
-      </section>
-    </main>
-
-    <script src="i18n.js"></script>
-    <script src="api.js"></script>
-    <script src="auth.js"></script>
-    <script src="nav.js"></script>
-    <script src="memos.js"></script>
+    <div id="app"></div>
   </body>
 </html>

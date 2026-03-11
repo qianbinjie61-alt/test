@@ -42,6 +42,16 @@ public class MemoController {
         return memoRepository.create(request.content().trim());
     }
 
+    @PutMapping("/{id}")
+    public Memo updateMemo(@PathVariable Long id, @Valid @RequestBody CreateMemoRequest request) {
+        String content = request.content().trim();
+        boolean updated = memoRepository.updateContent(id, content);
+        if (!updated) {
+            throw new ResourceNotFoundException("澶囧繕涓嶅瓨鍦?");
+        }
+        return memoRepository.findById(id).orElseThrow();
+    }
+
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteMemo(@PathVariable Long id) {
         boolean deleted = memoRepository.deleteById(id);

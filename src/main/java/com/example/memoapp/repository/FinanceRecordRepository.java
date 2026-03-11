@@ -101,6 +101,17 @@ public class FinanceRecordRepository {
         return findById(id).orElseThrow();
     }
 
+    public boolean updateRecord(Long id, String month, String type, BigDecimal amount, String note) {
+        return jdbcTemplate.update(
+                "UPDATE finance_records SET month = ?, type = ?, amount = ?, note = ? WHERE id = ?",
+                month,
+                type,
+                amount,
+                note,
+                id
+        ) > 0;
+    }
+
     public boolean deleteById(Long id) {
         return jdbcTemplate.update("DELETE FROM finance_records WHERE id = ?", id) > 0;
     }
