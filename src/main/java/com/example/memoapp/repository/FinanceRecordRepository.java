@@ -17,6 +17,9 @@ import java.util.Optional;
 public class FinanceRecordRepository {
     private final JdbcTemplate jdbcTemplate;
 
+    public record MonthTotals(BigDecimal incomeTotal, BigDecimal expenseTotal) {
+    }
+
     private final RowMapper<FinanceRecord> recordRowMapper = (rs, rowNum) -> new FinanceRecord(
             rs.getLong("id"),
             rs.getString("month"),
@@ -34,6 +37,38 @@ public class FinanceRecordRepository {
         return jdbcTemplate.query(
                 "SELECT id, month, type, amount, note, created_at FROM finance_records WHERE month = ? ORDER BY created_at DESC",
                 recordRowMapper,
+                month
+        );
+    }
+
+    public List<FinanceRecord> findByMonthPage(String month, int size, long offset) {
+        return jdbcTemplate.query(
+                "SELECT id, month, type, amount, note, created_at FROM finance_records WHERE month = ? ORDER BY created_at DESC LIMIT ? OFFSET ?",
+                recordRowMapper,
+                month,
+                size,
+                offset
+        );
+    }
+
+    public long countByMonth(String month) {
+        Long count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM finance_records WHERE month = ?", Long.class, month);
+        return count == null ? 0L : count;
+    }
+
+    public MonthTotals totalsByMonth(String month) {
+        return jdbcTemplate.queryForObject(
+                """
+                SELECT
+                  COALESCE(SUM(CASE WHEN type = 'income' THEN amount END), 0) AS income_total,
+                  COALESCE(SUM(CASE WHEN type = 'expense' THEN amount END), 0) AS expense_total
+                FROM finance_records
+                WHERE month = ?
+                """,
+                (rs, rowNum) -> new MonthTotals(
+                        rs.getBigDecimal("income_total"),
+                        rs.getBigDecimal("expense_total")
+                ),
                 month
         );
     }

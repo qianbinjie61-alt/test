@@ -183,3 +183,22 @@ button:hover {
 .card .delete-btn {
   margin-top: 0.5rem;
 }
+
+.pager {
+  margin-top: 0.75rem;
+}
+
+.pager button {
+  width: auto;
+}
+
+.pager-info {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  background: #9ca3af;
+}

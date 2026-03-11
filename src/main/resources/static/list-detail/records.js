@@ -5,18 +5,19 @@ const amountEl = document.querySelector('#finance-amount');
 const noteEl = document.querySelector('#finance-note');
 const listEl = document.querySelector('#finance-list');
 const summaryEl = document.querySelector('#monthly-summary');
+const pagerPrev = document.querySelector('#records-prev');
+const pagerNext = document.querySelector('#records-next');
+const pageInfo = document.querySelector('#records-page-info');
+
+let page = 0;
+const size = 10;
+let total = 0;
 
 const now = new Date();
 monthEl.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 
-function render(records, month) {
+function render(records, month, income, expense) {
   listEl.innerHTML = '';
-  let income = 0;
-  let expense = 0;
-  for (const r of records) {
-    if (r.type === 'income') income += r.amount;
-    if (r.type === 'expense') expense += r.amount;
-  }
   summaryEl.innerHTML = `${month} 汇总：收入 <span class="income">¥${income.toFixed(2)}</span>，支出 <span class="expense">¥${expense.toFixed(2)}</span>，结余 <strong>¥${(income - expense).toFixed(2)}</strong>`;
   if (!records.length) return listEl.append(createTextElement('li', '该月份暂无记录。'));
 
@@ -35,10 +36,28 @@ function render(records, month) {
   }
 }
 
+function updatePager() {
+  const totalPages = total === 0 ? 0 : Math.ceil(total / size);
+  pageInfo.textContent = total === 0 ? '暂无数据' : `第 ${page + 1} / ${totalPages} 页，共 ${total} 条`;
+
+  pagerPrev.disabled = page <= 0;
+  pagerNext.disabled = total === 0 || (page + 1) * size >= total;
+}
+
 async function load() {
   const month = monthEl.value;
-  const records = await requestJson(`/api/records?month=${encodeURIComponent(month)}`);
-  render(records, month);
+  const data = await requestJson(`/api/records?month=${encodeURIComponent(month)}&page=${page}&size=${size}`);
+
+  if (page > 0 && data.items.length === 0 && data.total > 0) {
+    page -= 1;
+    return load();
+  }
+
+  total = data.total;
+  const income = Number(data.incomeTotal || 0);
+  const expense = Number(data.expenseTotal || 0);
+  render(data.items, month, income, expense);
+  updatePager();
 }
 
 form.addEventListener('submit', async (e) => {
@@ -47,6 +66,7 @@ form.addEventListener('submit', async (e) => {
   await requestJson('/api/records', { method: 'POST', body: JSON.stringify(payload) });
   amountEl.value = '';
   noteEl.value = '';
+  page = 0;
   await load();
 });
 
@@ -57,5 +77,20 @@ listEl.addEventListener('click', async (e) => {
   await load();
 });
 
-monthEl.addEventListener('change', () => load().catch((e) => alert(e.message)));
+monthEl.addEventListener('change', () => {
+  page = 0;
+  load().catch((e) => alert(e.message));
+});
+
+pagerPrev.addEventListener('click', () => {
+  if (page <= 0) return;
+  page -= 1;
+  load().catch((e) => alert(e.message));
+});
+
+pagerNext.addEventListener('click', () => {
+  if ((page + 1) * size >= total) return;
+  page += 1;
+  load().catch((e) => alert(e.message));
+});
 load().catch((e) => alert(e.message));

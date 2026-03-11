@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
         return Map.of("message", ex.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleBadRequest(IllegalArgumentException ex) {
+        return Map.of("message", ex.getMessage() == null ? "鍙傛暟涓嶅悎娉?" : ex.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidation(MethodArgumentNotValidException ex) {

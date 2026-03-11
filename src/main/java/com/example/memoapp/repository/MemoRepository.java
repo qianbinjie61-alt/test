@@ -30,6 +30,20 @@ public class MemoRepository {
         return jdbcTemplate.query("SELECT id, content, created_at FROM memos ORDER BY created_at DESC", memoRowMapper);
     }
 
+    public List<Memo> findPage(int size, long offset) {
+        return jdbcTemplate.query(
+                "SELECT id, content, created_at FROM memos ORDER BY created_at DESC LIMIT ? OFFSET ?",
+                memoRowMapper,
+                size,
+                offset
+        );
+    }
+
+    public long countAll() {
+        Long count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM memos", Long.class);
+        return count == null ? 0L : count;
+    }
+
     public Optional<Memo> findById(Long id) {
         List<Memo> rows = jdbcTemplate.query(
                 "SELECT id, content, created_at FROM memos WHERE id = ?",

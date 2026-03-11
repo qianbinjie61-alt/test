@@ -1,13 +1,13 @@
 package com.example.memoapp.controller;
 
 import com.example.memoapp.dto.CreateRecordRequest;
+import com.example.memoapp.dto.RecordsPageResponse;
 import com.example.memoapp.model.FinanceRecord;
 import com.example.memoapp.repository.FinanceRecordRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,8 +20,25 @@ public class FinanceRecordController {
     }
 
     @GetMapping
-    public List<FinanceRecord> getRecords(@RequestParam String month) {
-        return recordRepository.findByMonth(month);
+    public RecordsPageResponse getRecords(
+            @RequestParam String month,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        if (month == null || month.isBlank()) throw new IllegalArgumentException("month is required");
+        validatePagination(page, size);
+
+        long total = recordRepository.countByMonth(month);
+        FinanceRecordRepository.MonthTotals totals = recordRepository.totalsByMonth(month);
+        long offset = (long) page * (long) size;
+        return new RecordsPageResponse(
+                recordRepository.findByMonthPage(month, size, offset),
+                page,
+                size,
+                total,
+                totals.incomeTotal(),
+                totals.expenseTotal()
+        );
     }
 
     @GetMapping("/{id}")
@@ -48,5 +65,11 @@ public class FinanceRecordController {
             throw new ResourceNotFoundException("记录不存在");
         }
         return Map.of("ok", true);
+    }
+
+    private static void validatePagination(int page, int size) {
+        if (page < 0) throw new IllegalArgumentException("page must be >= 0");
+        if (size < 1) throw new IllegalArgumentException("size must be >= 1");
+        if (size > 100) throw new IllegalArgumentException("size must be <= 100");
     }
 }
