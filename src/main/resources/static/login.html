@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app home">
+      <header class="app-header">
+        <h1>Login</h1>
+        <p>Sign in to continue.</p>
+      </header>
+
+      <section class="card">
+        <form id="login-form" class="form-grid">
+          <label>
+            Username
+            <input type="text" id="login-username" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="login-password" required />
+          </label>
+          <button type="submit">Sign in</button>
+        </form>
+        <p id="login-error" class="item-meta" aria-live="polite"></p>
+        <a class="item-link" href="/register.html">Create account</a>
+      </section>
+    </main>
+
+    <script src="/api.js"></script>
+    <script src="/login.js"></script>
+  </body>
+</html>

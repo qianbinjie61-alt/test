@@ -1,21 +1,25 @@
-<!doctype html>
-<html lang="zh-CN">
+﻿<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>清单与详情（兼容版）</title>
+    <title>List/Detail</title>
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
     <main class="app home">
       <header class="app-header">
-        <h1>清单与详情（兼容 main 的独立目录版）</h1>
-        <p>该版本放在独立目录，避免与 main 已有页面路径冲突。</p>
+        <h1>List + Detail (Standalone)</h1>
+        <p>Standalone pages to avoid path conflicts.</p>
+        <div id="nav-bar" class="nav-bar"></div>
       </header>
       <section class="card home-links">
-        <a class="nav-card" href="./memos.html"><strong>备忘录</strong><span>清单页与详情页</span></a>
-        <a class="nav-card" href="./records.html"><strong>月度记账</strong><span>清单页与详情页</span></a>
+        <a class="nav-card" href="./memos.html"><strong>Memos</strong><span>List + detail</span></a>
+        <a class="nav-card" href="./records.html"><strong>Records</strong><span>List + detail</span></a>
       </section>
     </main>
+    <script src="../api.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../nav.js"></script>
   </body>
 </html>

@@ -3,7 +3,7 @@
   <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>月度记账清单（兼容版）</title><link rel="stylesheet" href="../styles.css" /></head>
   <body>
     <main class="app">
-      <header class="app-header row"><h1>月度记账清单页</h1><a href="./index.html">返回模块首页</a></header>
+      <header class="app-header row"><h1>月度记账清单页</h1><div class="nav-right"><a href="./index.html">Home</a><div id="nav-bar" class="nav-bar"></div></div></header>
       <section class="card">
         <form id="finance-form" class="form-grid form-2cols">
           <label>月份<input type="month" id="finance-month" required /></label>
@@ -22,6 +22,8 @@
       </section>
     </main>
     <script src="../api.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../nav.js"></script>
     <script src="./records.js"></script>
   </body>
 </html>
