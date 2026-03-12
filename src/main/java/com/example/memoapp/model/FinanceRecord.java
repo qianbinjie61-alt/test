@@ -9,6 +9,7 @@ public record FinanceRecord(
         String type,
         BigDecimal amount,
         String note,
+        java.time.LocalDate recordDate,
         OffsetDateTime createdAt
 ) {
 }

@@ -54,7 +54,8 @@ public class FinanceRecordController {
                 request.month(),
                 request.type(),
                 request.amount(),
-                request.note().trim()
+                request.note().trim(),
+                java.time.LocalDate.parse(request.recordDate())
         );
     }
 
@@ -65,7 +66,8 @@ public class FinanceRecordController {
                 request.month(),
                 request.type(),
                 request.amount(),
-                request.note().trim()
+                request.note().trim(),
+                java.time.LocalDate.parse(request.recordDate())
         );
         if (!updated) {
             throw new ResourceNotFoundException("璁板綍涓嶅瓨鍦?");

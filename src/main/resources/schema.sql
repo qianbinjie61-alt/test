@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS finance_records (
   type ENUM('income', 'expense') NOT NULL,
   amount DECIMAL(12,2) NOT NULL,
   note VARCHAR(255) NOT NULL,
+  record_date DATE NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_finance_month_created_at (month, created_at)
 );
